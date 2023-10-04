@@ -60,4 +60,4 @@ This project is licensed under the GNU GPL License - see the [LICENSE](LICENSE) 
 
 ## Contact
 
-If you have any questions or feedback, feel free to reach out to [me](fabrizio.romanelli@gmail.com).
+If you have any questions or feedback, feel free to reach out to [me](mailto:fabrizio.romanelli@gmail.com).
