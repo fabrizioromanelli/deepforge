@@ -1,2 +1,0 @@
-[console_scripts]
-deep-model = deepModel.__main__:main
