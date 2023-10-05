@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "deep-model"
-version = "0.0.3"
+version = "0.0.0"
 description = "A python object oriented library to model deep neural networks based on Keras/Tensorflow."
 readme = "README.md"
 authors = [{ name = "Fabrizio Romanelli", email = "fabrizio.romanelli@gmail.com" }]
@@ -33,7 +33,7 @@ Homepage = "https://github.com/fabrizioromanelli/deep-model"
 [project.scripts]
 deep-model = "deepModel.__main__:main"
 [tool.bumpver]
-current_version = "0.0.3"
+current_version = "0.0.0"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "bump version {old_version} -> {new_version}"
 tag_message = "{new_version}"
@@ -49,5 +49,5 @@ push = true
     '^version = "{version}"',
     '^current_version = "{version}"',
 ]
-# "README.md" = ['The current version is "{version}".',]
+"README.md" = ['The current version is {version}.',]
 "src/deepModel/__init__.py" = ['__version__ = "{version}"']
