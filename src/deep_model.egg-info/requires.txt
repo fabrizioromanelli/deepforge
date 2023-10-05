@@ -1,0 +1,9 @@
+tensorflow-gpu>=2.11.0
+keras>=2.11.0
+
+[dev]
+black
+bumpver
+isort
+pip-tools
+pytest

@@ -1,0 +1,53 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=59.6.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deep-model"
+version = "0.0.1"
+description = "A python object oriented library to model deep neural networks based on Keras/Tensorflow."
+readme = "README.md"
+authors = [{ name = "Fabrizio Romanelli", email = "fabrizio.romanelli@gmail.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Development Status :: 2 - Pre-Alpha",
+]
+keywords = ["deep learning", "deep neural networks", "neural networks", "dnn", "nn"]
+dependencies = [
+    "tensorflow-gpu >= 2.11.0",
+    "keras >= 2.11.0",
+]
+requires-python = ">=3.9"
+
+[project.optional-dependencies]
+dev = ["black", "bumpver", "isort", "pip-tools", "pytest"]
+
+[project.urls]
+Homepage = "https://github.com/fabrizioromanelli/deep-model"
+
+[project.scripts]
+deep-model = "deepModel.__main__:main"
+[tool.bumpver]
+current_version = "0.0.1"
+version_pattern = "MAJOR.MINOR.PATCH"
+commit_message = "bump version {old_version} -> {new_version}"
+tag_message = "{new_version}"
+tag_scope = "default"
+pre_commit_hook = ""
+post_commit_hook = ""
+commit = true
+tag = true
+push = true
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    '^version = "{version}"',
+    '^current_version = "{version}"',
+]
+# "README.md" = ['The current version is "{version}".',]
+"src/deepModel/__init__.py" = ['__version__ = "{version}"']

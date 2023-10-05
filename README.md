@@ -4,6 +4,10 @@ A python object oriented library to model deep neural networks based on Keras/Te
 
 [![License](https://img.shields.io/badge/License-GNU%20GPL-blue)](LICENSE)
 
+## Version
+
+The current version is 0.0.0.
+
 ## Overview
 
 deepModel is a Python object-oriented library built on top of Keras and TensorFlow for simplifying the creation and training of deep neural networks. It provides a user-friendly interface for designing, configuring, and training neural network models, making it easier for developers and researchers to work with deep learning.
@@ -26,26 +30,13 @@ pip install deepModel
 
 ## Quick Start
 
-Here's a simple example of how to use your library to create and train a basic feedforward neural network:
+Here's a simple example of how to use your library to create a Recurrent Neural Network:
 
 ```python
 from deepModel import RNN
 
 # Define a neural network architecture
 model = RNN()
-model.add_input_layer(input_shape=(784,))
-model.add_dense_layer(units=128, activation='relu')
-model.add_dense_layer(units=10, activation='softmax')
-
-# Compile the model
-model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-
-# Train the model
-model.fit(x_train, y_train, epochs=10, batch_size=32)
-
-# Evaluate the model
-loss, accuracy = model.evaluate(x_test, y_test)
-print(f'Loss: {loss}, Accuracy: {accuracy}')
 ```
 
 For more detailed usage and examples, please refer to the documentation.

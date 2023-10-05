@@ -1,0 +1,16 @@
+LICENSE
+MANIFEST.in
+README.md
+pyproject.toml
+src/deepModel/__init__.py
+src/deepModel/__main__.py
+src/deepModel/cnn.py
+src/deepModel/dnn.py
+src/deepModel/rnn.py
+src/deep_model.egg-info/PKG-INFO
+src/deep_model.egg-info/SOURCES.txt
+src/deep_model.egg-info/dependency_links.txt
+src/deep_model.egg-info/entry_points.txt
+src/deep_model.egg-info/requires.txt
+src/deep_model.egg-info/top_level.txt
+tests/test_cnn.py

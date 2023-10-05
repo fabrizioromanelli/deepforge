@@ -1,12 +1,12 @@
-# Class for CNN
+# Class for RNN
 # author: Fabrizio Romanelli
 # email : fabrizio.romanelli@gmail.com
 # date  : 04/10/2023
 
-from .DNN import DNN
+from .dnn import DNN
 
-class CNN(DNN):
-  """CNN class"""
+class RNN(DNN):
+  """RNN class"""
 
   # Constructor
   def __init__(self, _layers, _name):
