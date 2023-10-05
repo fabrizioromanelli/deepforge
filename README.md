@@ -28,6 +28,12 @@ You can install your library using pip:
 pip install deepModel
 ```
 
+This will install the library with full support for tensorflow-gpu. If you need to use the library with the CPU version of tensorflow do the following:
+
+```bash
+pip install deepModel[cpu]
+```
+
 ## Quick Start
 
 Here's a simple example of how to use your library to create a Recurrent Neural Network:
