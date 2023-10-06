@@ -9,12 +9,12 @@ class RNN(DNN):
   """RNN class"""
 
   # Constructor
-  def __init__(self, _layers, _name):
-    self.LAYERS = _layers
-    super().__init__(_name)
+  def __init__(self, layers, name):
+    self.LAYERS = layers
+    super().__init__(name)
 
-  def setLayers(self, _layers):
-    self.LAYERS = _layers
+  def setLayers(self, layers):
+    self.LAYERS = layers
     return
 
   def getLayers(self):

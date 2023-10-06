@@ -2,6 +2,7 @@
 
 from .cnn import CNN
 from .rnn import RNN
+from .initialize import initialize
 
 # Version of deepModel library
 __version__ = "0.0.3"
