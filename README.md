@@ -6,7 +6,7 @@ A python object oriented library to model deep neural networks based on Keras/Te
 
 ## Version
 
-The current version is 0.0.2.
+The current version is 0.0.0.
 
 ## Overview
 
@@ -28,11 +28,7 @@ You can install your library using pip:
 pip install deepModel
 ```
 
-This will install the library with full support for tensorflow-gpu. If you need to use the library with the CPU version of tensorflow do the following:
-
-```bash
-pip install deepModel[cpu]
-```
+This will install the library with full support for tensorflow-gpu.
 
 ## Quick Start
 
