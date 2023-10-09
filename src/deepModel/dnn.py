@@ -25,11 +25,11 @@ class DNN:
     return self.NAME
 
   # Setter/Getter for DNN number of inputs
-  def setInputs(self, inputN):
+  def setInputsN(self, inputN):
     self.inputN = inputN
     return
 
-  def getInputs(self):
+  def getInputsN(self):
     return self.inputN
 
   # Setter/Getter for DNN epochs
@@ -111,13 +111,12 @@ class DNN:
       return
 
   # Fit model
-  def fit(self):
-    if ~hasattr(self, 'model'):
+  def fit(self, **fitParams):
+    if hasattr(self, 'model'):
+      self.model.fit(**fitParams)
+    else:
       print('[DM] Model has not been built yet.')
       return
-
-    # TODO implement fit model
-    pass
 
   # Make predictions with the model
   def predict(self):
