@@ -2,6 +2,7 @@
 
 from .cnn import CNN
 from .rnn import RNN
+from .multivariateDnn import multivariateDNN
 from .initialize import initialize
 
 # Version of deepModel library
