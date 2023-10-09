@@ -50,11 +50,7 @@ class DNN:
       return
 
   # Load the model from a file
-  def loadModel(self, filename, fullpath=False, tflite=False):
-    if ~hasattr(self, 'model'):
-      print('[DM] Model has not been built yet.')
-      return
-
+  def load(self, filename, fullpath=False, tflite=False):
     print("[DM] Loading model...")
     if tflite:
       # TODO implement TFLITE model load
@@ -65,15 +61,15 @@ class DNN:
       self.model = load_model(filename)
     else:
       if os.name == 'posix':
-        self.model = load_model('./model/'+filename+'.h5')
+        self.model = load_model('./models/'+filename+'.h5')
       elif os.name == 'nt':
-        self.model = load_model('C:/yourPath/model/'+filename+'.h5')
+        self.model = load_model('C:/yourPath/models/'+filename+'.h5')
     print("[DM] Loaded!")
     return
 
   # Save the model to a file
   def save(self, filename, fullpath=False, tflite=False):
-    if ~hasattr(self, 'model'):
+    if not hasattr(self, 'model'):
       print('[DM] Model has not been built yet.')
       return
 
@@ -119,10 +115,9 @@ class DNN:
       return
 
   # Make predictions with the model
-  def predict(self):
-    if ~hasattr(self, 'model'):
+  def predict(self, **predictParams):
+    if hasattr(self, 'model'):
+      return self.model.predict(**predictParams)
+    else:
       print('[DM] Model has not been built yet.')
       return
-
-    # TODO implement predict model
-    pass

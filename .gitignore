@@ -2,3 +2,4 @@ __pycache__
 venv/
 deep_model.egg-info/
 dist/
+models/

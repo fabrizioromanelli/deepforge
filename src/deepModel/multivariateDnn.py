@@ -100,16 +100,3 @@ class multivariateDNN(DNN):
     self.model = Model(inputs=self.layersIn, outputs=outnet)
     self.model.compile(**self.modelParams)
     print("[DM] Model built!")
-
-  # Helpers
-  def test(self, **kwargs):
-    print(kwargs)
-    Input(**kwargs)
-    for key,value in kwargs.items():
-        print("{}: {}".format(key,value))
-
-  def test2(self, args):
-    print(args)
-    for arg in args:
-      print(arg)
-      Input(**arg)
