@@ -115,9 +115,10 @@ class DNN:
       return
 
   # Make predictions with the model
-  def predict(self, **predictParams):
+  @tf.function
+  def predict(self, x):
     if hasattr(self, 'model'):
-      return self.model.predict(**predictParams)
+      return self.model(x)
     else:
       print('[DM] Model has not been built yet.')
       return
