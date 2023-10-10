@@ -13,7 +13,7 @@ class DNN:
 
   # Constructor
   def __init__(self, name, inputN=1):
-    self.NAME   = name
+    self.NAME   = name.replace(" ", "")
     self.inputN = inputN
 
   # Setter/Getter for DNN name
@@ -50,7 +50,8 @@ class DNN:
       return
 
   # Load the model from a file
-  def load(self, filename, fullpath=False, tflite=False):
+  def load(self, filename, custom_objects, fullpath=False, tflite=False):
+    # TODO when loading a model, update the self.inputN variable
     print("[DM] Loading model...")
     if tflite:
       # TODO implement TFLITE model load
@@ -61,9 +62,10 @@ class DNN:
       self.model = load_model(filename)
     else:
       if os.name == 'posix':
-        self.model = load_model('./models/'+filename+'.h5')
+        self.model = load_model('./models/'+filename+'.h5', custom_objects)
       elif os.name == 'nt':
-        self.model = load_model('C:/yourPath/models/'+filename+'.h5')
+        currentDir = os.getcwd()
+        self.model = load_model(currentDir+'/models/'+filename+'.h5', custom_objects)
     print("[DM] Loaded!")
     return
 
@@ -90,10 +92,11 @@ class DNN:
         else:
           self.model.save('./models/'+filename+'.h5') # Python from Linux/WSL2 (saves in ./models)
       elif os.name == 'nt':
+        currentDir = os.getcwd()
         if tflite:
-          open('C:/yourPath/'+filename+'.tflite', 'wb').write(tflite_model)
+          open(currentDir+'/models/'+filename+'.tflite', 'wb').write(tflite_model)
         else:
-          self.model.save('C:/yourPath/'+filename+'.h5') # Python from Anaconda for Windows (saves in C:/yourPath)
+          self.model.save(currentDir+'/models/'+filename+'.h5') # Python from Anaconda for Windows (saves in ./models)
     print("[DM] Model saved!")
     return
 

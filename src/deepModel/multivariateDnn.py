@@ -11,7 +11,7 @@ class multivariateDNN(DNN):
   """Multivariate DNN class"""
 
   # Constructor
-  def __init__(self, name, inputN):
+  def __init__(self, name, inputN=1):
     super().__init__(name,inputN)
 
   # Setter and getter for Keras Input arguments
@@ -86,7 +86,10 @@ class multivariateDNN(DNN):
       self.layersIn.append(subnet.input)
       self.layersOut.append(subnet.output)
 
-    combined = concatenate(self.layersOut)
+    if self.inputN != 1:
+      combined = concatenate(self.layersOut)
+    else:
+      combined = self.layersOut[0]
 
     # Build output dense layers
     outLayersN = len(self.outLayersArgs)
@@ -97,6 +100,6 @@ class multivariateDNN(DNN):
       else:
         outnet = Dense(**self.outLayersArgs[l])(outnet)
 
-    self.model = Model(inputs=self.layersIn, outputs=outnet)
+    self.model = Model(name=self.NAME, inputs=self.layersIn, outputs=outnet)
     self.model.compile(**self.modelParams)
     print("[DM] Model built!")
