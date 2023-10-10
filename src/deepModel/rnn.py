@@ -1,4 +1,4 @@
-# Class for RNN
+# Class for Recurrent Neural Network
 # author: Fabrizio Romanelli
 # email : fabrizio.romanelli@gmail.com
 # date  : 04/10/2023
