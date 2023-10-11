@@ -5,8 +5,8 @@ requires = ["setuptools>=59.6.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "deep-model"
-version = "0.0.4"
+name = "deepforge"
+version = "0.0.1"
 description = "A python object oriented library to model deep neural networks based on Keras/Tensorflow."
 readme = "README.md"
 authors = [{ name = "Fabrizio Romanelli", email = "fabrizio.romanelli@gmail.com" }]
@@ -28,12 +28,12 @@ requires-python = ">=3.9"
 dev = ["black", "bumpver", "isort", "pip-tools", "pytest"]
 
 [project.urls]
-Homepage = "https://github.com/fabrizioromanelli/deep-model"
+Homepage = "https://github.com/fabrizioromanelli/deepforge"
 
 [project.scripts]
-deep-model = "deepModel.__main__:main"
+deepforge = "deepforge.__main__:main"
 [tool.bumpver]
-current_version = "0.0.4"
+current_version = "0.0.1"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "bump version {old_version} -> {new_version}"
 tag_message = "{new_version}"
@@ -50,4 +50,4 @@ push = true
     '^current_version = "{version}"',
 ]
 "README.md" = ['The current version is {version}.',]
-"src/deepModel/__init__.py" = ['__version__ = "{version}"']
+"src/deepforge/__init__.py" = ['__version__ = "{version}"']

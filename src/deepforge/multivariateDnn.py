@@ -16,7 +16,7 @@ class multivariateDNN(DNN):
 
   # Setter and getter for Keras Input arguments
   def setInputs(self, inputArgs):
-    assert len(inputArgs) == self.inputN, "[DM] Input arguments are incompatible with the number of inputs."
+    assert len(inputArgs) == self.inputN, "[DF] Input arguments are incompatible with the number of inputs."
     self.inputArgs = inputArgs
     return
 
@@ -24,7 +24,7 @@ class multivariateDNN(DNN):
     if hasattr(self, 'inputArgs'):
       return self.inputArgs
     else:
-      print('[DM] Model has no input arguments set yet.')
+      print('[DF] Model has no input arguments set yet.')
       return
 
   # Setter and getter for Keras Layers arguments
@@ -36,7 +36,7 @@ class multivariateDNN(DNN):
     if hasattr(self, 'layersArgs'):
       return self.layersArgs
     else:
-      print('[DM] Model has no layers arguments set yet.')
+      print('[DF] Model has no layers arguments set yet.')
       return
 
   # Setter and getter for Keras ouput Layers arguments
@@ -48,7 +48,7 @@ class multivariateDNN(DNN):
     if hasattr(self, 'outLayersArgs'):
       return self.outLayersArgs
     else:
-      print('[DM] Model has no output layers arguments set yet.')
+      print('[DF] Model has no output layers arguments set yet.')
       return
 
   # Setter and getter for model configuration
@@ -60,12 +60,12 @@ class multivariateDNN(DNN):
     if hasattr(self, 'modelParams'):
       return self.modelParams
     else:
-      print('[DM] Model has no configuration arguments set yet.')
+      print('[DF] Model has no configuration arguments set yet.')
       return
 
   # Build model
   def build(self):
-    print("[DM] Building model...")
+    print("[DF] Building model...")
     # Build inputs
     self.inputLayer = []
     for i in range(0, self.inputN):
@@ -102,4 +102,4 @@ class multivariateDNN(DNN):
 
     self.model = Model(name=self.NAME, inputs=self.layersIn, outputs=outnet)
     self.model.compile(**self.modelParams)
-    print("[DM] Model built!")
+    print("[DF] Model built!")

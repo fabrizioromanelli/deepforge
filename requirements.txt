@@ -5,8 +5,8 @@
 #    pip-compile pyproject.toml
 #
 keras==2.14.0
-    # via deep-model (pyproject.toml)
+    # via deepforge (pyproject.toml)
 python-version==0.0.2
     # via tensorflow-gpu
 tensorflow-gpu==2.12.0
-    # via deep-model (pyproject.toml)
+    # via deepforge (pyproject.toml)

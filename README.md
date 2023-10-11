@@ -80,6 +80,39 @@ mDnnCopy = dm.multivariateDNN(name="simple DNN 2")
 mDnnCopy.load("simpleDNN")
 ```
 
+The output of the previous snippet is:
+
+```
+[DF] Building model...
+[DF] Model built!
+Model: "SimpleDNN"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ Input layer (InputLayer)    [(None, 2)]               0         
+                                                                 
+ dense_20 (Dense)            (None, 16)                48        
+                                                                 
+ dense_21 (Dense)            (None, 16)                272       
+                                                                 
+ dense_22 (Dense)            (None, 16)                272       
+                                                                 
+ dense_23 (Dense)            (None, 3)                 51        
+                                                                 
+ dense_24 (Dense)            (None, 1)                 4         
+                                                                 
+=================================================================
+Total params: 647
+Trainable params: 647
+Non-trainable params: 0
+_________________________________________________________________
+[DF] Saving model...
+[DF] Model saved!
+[[1.0306408]]
+[DF] Loading model...
+[DF] Loaded!
+```
+
 The same `multivariateDNN` class can be used to build a more complex DNN model with a custom loss function:
 
 ```python
@@ -141,6 +174,54 @@ print(y.numpy())
 # Load the model with the custom loss function
 mDnn2Copy = dm.multivariateDNN(name="multivariate DNN 2")
 mDnn2Copy.load("multivariateDNN", custom_objects = {'custom_loss': custom_loss})
+```
+
+The output of the previous snippet is:
+
+```
+[DF] Building model...
+[DF] Model built!
+Model: "multivariateDNN"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to                     
+==================================================================================================
+ inputLayer1 (InputLayer)       [(None, 2)]          0           []                               
+                                                                                                  
+ inputLayer2 (InputLayer)       [(None, 2)]          0           []                               
+                                                                                                  
+ dense_25 (Dense)               (None, 32)           96          ['inputLayer1[0][0]']            
+                                                                                                  
+ dense_29 (Dense)               (None, 32)           96          ['inputLayer2[0][0]']            
+                                                                                                  
+ dense_26 (Dense)               (None, 16)           528         ['dense_25[0][0]']               
+                                                                                                  
+ dense_30 (Dense)               (None, 16)           528         ['dense_29[0][0]']               
+                                                                                                  
+ dense_27 (Dense)               (None, 8)            136         ['dense_26[0][0]']               
+                                                                                                  
+ dense_31 (Dense)               (None, 8)            136         ['dense_30[0][0]']               
+                                                                                                  
+ dense_28 (Dense)               (None, 3)            27          ['dense_27[0][0]']               
+                                                                                                  
+ dense_32 (Dense)               (None, 3)            27          ['dense_31[0][0]']               
+                                                                                                  
+ concatenate_1 (Concatenate)    (None, 6)            0           ['dense_28[0][0]',               
+                                                                  'dense_32[0][0]']               
+                                                                                                  
+ dense_33 (Dense)               (None, 32)           224         ['concatenate_1[0][0]']          
+                                                                                                  
+ dense_34 (Dense)               (None, 1)            33          ['dense_33[0][0]']               
+                                                                                                  
+==================================================================================================
+Total params: 1,831
+Trainable params: 1,831
+Non-trainable params: 0
+__________________________________________________________________________________________________
+[DF] Saving model...
+[DF] Model saved!
+[[6.0725203]]
+[DF] Loading model...
+[DF] Loaded!
 ```
 
 For more detailed usage and examples, please refer to the documentation.
