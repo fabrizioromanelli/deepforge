@@ -6,7 +6,6 @@
 import os
 import tensorflow as tf
 from keras.models import load_model
-# from keras import backend as K
 
 class DNN:
   """DNN class"""
@@ -46,16 +45,16 @@ class DNN:
       self.model
       return self.model
     else:
-      print('[DM] Model has not been built yet.')
+      print('[DF] Model has not been built yet.')
       return
 
   # Load the model from a file
-  def load(self, filename, custom_objects, fullpath=False, tflite=False):
+  def load(self, filename, custom_objects={}, fullpath=False, tflite=False):
     # TODO when loading a model, update the self.inputN variable
-    print("[DM] Loading model...")
+    print("[DF] Loading model...")
     if tflite:
       # TODO implement TFLITE model load
-      print("[DM] Load Tflite model not implemented!")
+      print("[DF] Load Tflite model not implemented!")
       return
 
     if fullpath:
@@ -66,16 +65,16 @@ class DNN:
       elif os.name == 'nt':
         currentDir = os.getcwd()
         self.model = load_model(currentDir+'/models/'+filename+'.h5', custom_objects)
-    print("[DM] Loaded!")
+    print("[DF] Loaded!")
     return
 
   # Save the model to a file
   def save(self, filename, fullpath=False, tflite=False):
     if not hasattr(self, 'model'):
-      print('[DM] Model has not been built yet.')
+      print('[DF] Model has not been built yet.')
       return
 
-    print("[DM] Saving model...")
+    print("[DF] Saving model...")
     if tflite:
       converter = tf.lite.TFLiteConverter.from_keras_model(self.model)
       tflite_model = converter.convert()
@@ -97,7 +96,7 @@ class DNN:
           open(currentDir+'/models/'+filename+'.tflite', 'wb').write(tflite_model)
         else:
           self.model.save(currentDir+'/models/'+filename+'.h5') # Python from Anaconda for Windows (saves in ./models)
-    print("[DM] Model saved!")
+    print("[DF] Model saved!")
     return
 
   # Plot the model summary
@@ -106,7 +105,7 @@ class DNN:
       self.model.summary()
       return
     else:
-      print('[DM] Model has not been built yet.')
+      print('[DF] Model has not been built yet.')
       return
 
   # Fit model
@@ -114,7 +113,7 @@ class DNN:
     if hasattr(self, 'model'):
       self.model.fit(**fitParams)
     else:
-      print('[DM] Model has not been built yet.')
+      print('[DF] Model has not been built yet.')
       return
 
   # Make predictions with the model
@@ -123,5 +122,5 @@ class DNN:
     if hasattr(self, 'model'):
       return self.model(x)
     else:
-      print('[DM] Model has not been built yet.')
+      print('[DF] Model has not been built yet.')
       return

@@ -5,5 +5,5 @@ from .rnn import RNN
 from .multivariateDnn import multivariateDNN
 from .initialize import initialize
 
-# Version of deepModel library
-__version__ = "0.0.4"
+# Version of deepforge library
+__version__ = "0.0.1"

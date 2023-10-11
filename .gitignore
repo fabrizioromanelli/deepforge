@@ -1,5 +1,5 @@
 __pycache__
 venv/
-deep_model.egg-info/
+deepforge.egg-info/
 dist/
 models/
