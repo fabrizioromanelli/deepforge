@@ -8,6 +8,11 @@ A python object oriented library to model deep neural networks based on Keras/Te
 
 The current version is 0.0.2.
 
+## Changelog
+
+11.10.2023 - Version 0.0.3: Integration of a fully functional Convolutional Neural Network and Recurrent Neural Network classes.
+10.10.2023 - Version 0.0.2: Integration of a fully functional multivariate Deep Neural Network class.
+
 ## Overview
 
 deepforge is a Python object-oriented library built on top of Keras and TensorFlow for simplifying the creation and training of deep neural networks. It provides a user-friendly interface for designing, configuring, and training neural network models, making it easier for developers and researchers to work with deep learning. Next versions of the library should include support for other deep learning frameworks (such as PyTorch, Theano, Caffe, etc.).
@@ -32,7 +37,8 @@ This will install the library with full support for tensorflow-gpu.
 
 ## Quick Start
 
-Here's a simple example of how to use the deepforge to create a simple Deep Neural Network via the `multivariateDNN` class:
+### Multivariate Deep Neural Network (`multivariateDNN`)
+Here's a simple example of how to deepforge a simple Deep Neural Network via the `multivariateDNN` class:
 
 ```python
 import numpy as np
@@ -228,6 +234,193 @@ ________________________________________________________________________________
 ```
 
 For more detailed usage and examples, please refer to the documentation.
+
+### Convolutional Neural Network (`CNN`)
+Here's a simple example of how to deepforge a simple Convolutional Neural Network via the `CNN` class and fitting the model with the MNIST dataset:
+
+```python
+# Convolutional Neural Network example with MNIST dataset training and validation
+import numpy as np
+# Import the deepforge library
+import deepforge as df
+from keras.datasets import mnist
+from keras.utils import to_categorical
+
+# Initialize the environment
+df.initialize(CPU=20, GPU=1, VERBOSE='2', NPARRAYS=True)
+
+# Make an instance of a CNN
+cnn = df.CNN(name="Simple CNN", inputN=1)
+
+# Set inputs, inner layers and out layers
+cnn.setInputs([{'shape': (28, 28, 1), 'name': 'Input Layer'}])
+cnn.setConvLayers([[{'filters': 32, 'kernel_size': (3, 3), 'activation': 'relu'},{'filters': 64, 'kernel_size': (3, 3), 'activation': 'relu'},{'filters': 64, 'kernel_size': (3, 3), 'activation': 'relu'}]])
+cnn.setPoolLayers([[{'pool_size': (2,2)},{'pool_size': (2,2)}]])
+cnn.setOutLayers([{'units': 64, 'activation': 'relu'},{'units': 10, 'activation': 'softmax'}])
+
+# Configure the model
+cnn.setModelConfiguration(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+# Build the model and print the summary
+cnn.build()
+cnn.summary()
+
+# Load the MNIST dataset and preprocess it
+(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+train_images = train_images.reshape((60000, 28, 28, 1))
+test_images = test_images.reshape((10000, 28, 28, 1))
+train_images = train_images.astype('float32') / 255
+test_images = test_images.astype('float32') / 255
+train_labels = to_categorical(train_labels)
+test_labels = to_categorical(test_labels)
+
+# Fit the model
+cnn.fit(x=train_images, y=train_labels, epochs=5, batch_size=64)
+
+# Save the model
+cnn.save('CNN',tflite=False)
+
+# Get the Keras model and run a test to evaluate accuracy
+cnnModel = cnn.getModel()
+
+test_loss, test_acc = cnnModel.evaluate(test_images, test_labels)
+print("Test accuracy:", test_acc)
+```
+
+The output of the previous code snippet is reported here:
+```
+[DF] Building model...
+[DF] Model built!
+Model: "SimpleCNN"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ Input Layer (InputLayer)    [(None, 28, 28, 1)]       0         
+                                                                 
+ conv2d_6 (Conv2D)           (None, 26, 26, 32)        320       
+                                                                 
+ max_pooling2d_4 (MaxPooling  (None, 13, 13, 32)       0         
+ 2D)                                                             
+                                                                 
+ conv2d_7 (Conv2D)           (None, 11, 11, 64)        18496     
+                                                                 
+ max_pooling2d_5 (MaxPooling  (None, 5, 5, 64)         0         
+ 2D)                                                             
+                                                                 
+ conv2d_8 (Conv2D)           (None, 3, 3, 64)          36928     
+                                                                 
+ flatten_2 (Flatten)         (None, 576)               0         
+                                                                 
+ dense_4 (Dense)             (None, 64)                36928     
+                                                                 
+ dense_5 (Dense)             (None, 10)                650       
+                                                                 
+=================================================================
+Total params: 93,322
+Trainable params: 93,322
+Non-trainable params: 0
+_________________________________________________________________
+Epoch 1/5
+938/938 [==============================] - 6s 5ms/step - loss: 0.1780 - accuracy: 0.9445
+Epoch 2/5
+938/938 [==============================] - 6s 6ms/step - loss: 0.0501 - accuracy: 0.9843
+Epoch 3/5
+938/938 [==============================] - 5s 6ms/step - loss: 0.0365 - accuracy: 0.9886
+Epoch 4/5
+938/938 [==============================] - 6s 6ms/step - loss: 0.0273 - accuracy: 0.9916
+Epoch 5/5
+938/938 [==============================] - 6s 6ms/step - loss: 0.0226 - accuracy: 0.9930
+313/313 [==============================] - 1s 4ms/step - loss: 0.0281 - accuracy: 0.9911
+Test accuracy: 0.991100013256073
+[DF] Saving model...
+[DF] Model saved!
+```
+
+### Recurrent Neural Network (`RNN`)
+Here's a simple example of how to deepforge a simple Recurrent Neural Network via the `RNN` class:
+
+```python
+# Simple Recurrent Neural Network example
+
+# Make an instance of a RNN
+rnn = df.RNN(name="Simple RNN", inputN=1)
+
+# Set inputs, inner layers and out layers
+rnn.setInputs([{'shape': (1,2), 'name': 'Input layer'}])
+rnn.setRecurrentLayers([[{'units': 500}]])
+rnn.setOutLayers([{'units': 1, 'activation': 'linear'}])
+
+# Configure the model
+rnn.setModelConfiguration(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+# Build the model and print the summary
+rnn.build()
+rnn.summary()
+
+################################################
+################################################
+################################################
+
+# Another RNN example with 3 stacked LSTM layers
+rnn2 = df.RNN(name="Stacked RNN")
+
+# Set inputs, inner layers and out layers
+rnn2.setInputs([{'shape': (6,2), 'name': 'Input layer'}])
+rnn2.setRecurrentLayers([[{'units': 500, 'return_sequences': True},{'units': 500, 'return_sequences': True},{'units': 500}]])
+rnn2.setOutLayers([{'units': 1, 'activation': 'linear'}])
+
+# Configure the model
+rnn2.setModelConfiguration(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+# Build the model and print the summary
+rnn2.build()
+rnn2.summary()
+```
+
+The output for the previous code is:
+
+```
+[DF] Building model...
+[DF] Model built!
+Model: "SimpleRNN"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ Input layer (InputLayer)    [(None, 1, 2)]            0         
+                                                                 
+ cu_dnnlstm_4 (CuDNNLSTM)    (None, 500)               1008000   
+                                                                 
+ dense_2 (Dense)             (None, 1)                 501       
+                                                                 
+=================================================================
+Total params: 1,008,501
+Trainable params: 1,008,501
+Non-trainable params: 0
+_________________________________________________________________
+[DF] Building model...
+[DF] Model built!
+
+
+Model: "StackedRNN"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ Input layer (InputLayer)    [(None, 6, 2)]            0         
+                                                                 
+ cu_dnnlstm_5 (CuDNNLSTM)    (None, 6, 500)            1008000   
+                                                                 
+ cu_dnnlstm_6 (CuDNNLSTM)    (None, 6, 500)            2004000   
+                                                                 
+ cu_dnnlstm_7 (CuDNNLSTM)    (None, 500)               2004000   
+                                                                 
+ dense_3 (Dense)             (None, 1)                 501       
+                                                                 
+=================================================================
+Total params: 5,016,501
+Trainable params: 5,016,501
+Non-trainable params: 0
+_________________________________________________________________
+```
 
 ## Documentation
 
