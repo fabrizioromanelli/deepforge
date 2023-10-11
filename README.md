@@ -8,6 +8,11 @@ A python object oriented library to model deep neural networks based on Keras/Te
 
 The current version is 0.0.2.
 
+## Changelog
+
+11.10.2023 - Version 0.0.3: Integration of a fully functional Convolutional Neural Network
+10.10.2023 - Version 0.0.2: Integration of a fully functional multivariate Deep Neural Network class.
+
 ## Overview
 
 deepforge is a Python object-oriented library built on top of Keras and TensorFlow for simplifying the creation and training of deep neural networks. It provides a user-friendly interface for designing, configuring, and training neural network models, making it easier for developers and researchers to work with deep learning.
