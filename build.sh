@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# To install the library locally in editable mode, run:
+# python -m pip install -e .
+
 rm -rf dist/*
 
 if [ $1 = 'test' ]
