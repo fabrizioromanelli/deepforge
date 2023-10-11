@@ -10,7 +10,7 @@ The current version is 0.0.2.
 
 ## Changelog
 
-11.10.2023 - Version 0.0.3: Integration of a fully functional Convolutional Neural Network class.
+11.10.2023 - Version 0.0.3: Integration of a fully functional Convolutional Neural Network and Recurrent Neural Network classes.
 10.10.2023 - Version 0.0.2: Integration of a fully functional multivariate Deep Neural Network class.
 
 ## Overview
@@ -38,7 +38,7 @@ This will install the library with full support for tensorflow-gpu.
 ## Quick Start
 
 ### Multivariate Deep Neural Network (`multivariateDNN`)
-Here's a simple example of how to use the deepforge to create a simple Deep Neural Network via the `multivariateDNN` class:
+Here's a simple example of how to deepforge a simple Deep Neural Network via the `multivariateDNN` class:
 
 ```python
 import numpy as np
@@ -236,7 +236,7 @@ ________________________________________________________________________________
 For more detailed usage and examples, please refer to the documentation.
 
 ### Convolutional Neural Network (`CNN`)
-Here's a simple example of how to use the deepforge to create a simple Convolutional Neural Network via the `CNN` class and fitting the model with the MNIST dataset:
+Here's a simple example of how to deepforge a simple Convolutional Neural Network via the `CNN` class and fitting the model with the MNIST dataset:
 
 ```python
 # Convolutional Neural Network example with MNIST dataset training and validation
@@ -334,6 +334,92 @@ Epoch 5/5
 Test accuracy: 0.991100013256073
 [DF] Saving model...
 [DF] Model saved!
+```
+
+### Recurrent Neural Network (`RNN`)
+Here's a simple example of how to deepforge a simple Recurrent Neural Network via the `RNN` class:
+
+```python
+# Simple Recurrent Neural Network example
+
+# Make an instance of a RNN
+rnn = df.RNN(name="Simple RNN", inputN=1)
+
+# Set inputs, inner layers and out layers
+rnn.setInputs([{'shape': (1,2), 'name': 'Input layer'}])
+rnn.setRecurrentLayers([[{'units': 500}]])
+rnn.setOutLayers([{'units': 1, 'activation': 'linear'}])
+
+# Configure the model
+rnn.setModelConfiguration(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+# Build the model and print the summary
+rnn.build()
+rnn.summary()
+
+################################################
+################################################
+################################################
+
+# Another RNN example with 3 stacked LSTM layers
+rnn2 = df.RNN(name="Stacked RNN")
+
+# Set inputs, inner layers and out layers
+rnn2.setInputs([{'shape': (6,2), 'name': 'Input layer'}])
+rnn2.setRecurrentLayers([[{'units': 500, 'return_sequences': True},{'units': 500, 'return_sequences': True},{'units': 500}]])
+rnn2.setOutLayers([{'units': 1, 'activation': 'linear'}])
+
+# Configure the model
+rnn2.setModelConfiguration(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+# Build the model and print the summary
+rnn2.build()
+rnn2.summary()
+```
+
+The output for the previous code is:
+
+```
+[DF] Building model...
+[DF] Model built!
+Model: "SimpleRNN"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ Input layer (InputLayer)    [(None, 1, 2)]            0         
+                                                                 
+ cu_dnnlstm_4 (CuDNNLSTM)    (None, 500)               1008000   
+                                                                 
+ dense_2 (Dense)             (None, 1)                 501       
+                                                                 
+=================================================================
+Total params: 1,008,501
+Trainable params: 1,008,501
+Non-trainable params: 0
+_________________________________________________________________
+[DF] Building model...
+[DF] Model built!
+
+
+Model: "StackedRNN"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ Input layer (InputLayer)    [(None, 6, 2)]            0         
+                                                                 
+ cu_dnnlstm_5 (CuDNNLSTM)    (None, 6, 500)            1008000   
+                                                                 
+ cu_dnnlstm_6 (CuDNNLSTM)    (None, 6, 500)            2004000   
+                                                                 
+ cu_dnnlstm_7 (CuDNNLSTM)    (None, 500)               2004000   
+                                                                 
+ dense_3 (Dense)             (None, 1)                 501       
+                                                                 
+=================================================================
+Total params: 5,016,501
+Trainable params: 5,016,501
+Non-trainable params: 0
+_________________________________________________________________
 ```
 
 ## Documentation
