@@ -440,6 +440,9 @@ _________________________________________________________________
 ```
 
 ### Convolutional Recurrent Neural Network (`CRNN`)
+The generic scheme of a Convolutional Recurrent Neural Network is reported here:
+![Alt text](./images/crnn.png)
+
 Here's a simple example of how to deepforge a simple Convolutional Recurrent Neural Network via the `CRNN` class:
 
 ```python
