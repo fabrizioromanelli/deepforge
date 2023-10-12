@@ -422,6 +422,68 @@ Non-trainable params: 0
 _________________________________________________________________
 ```
 
+### Convolutional Recurrent Neural Network (`CRNN`)
+Here's a simple example of how to deepforge a simple Convolutional Recurrent Neural Network via the `CRNN` class:
+
+```python
+# Convolutional Recurrent Neural Network example
+
+# Make an instance of a CRNN
+crnn = df.CRNN(name="Simple CRNN", inputN=1)
+
+# Set inputs, inner layers and out layers
+crnn.setInputs([{'shape': (3,3,1), 'name': 'Input Layer'}])
+crnn.setConvLayers([[{'filters': 32, 'kernel_size': (2,2), 'activation': 'relu'},{'filters': 64, 'kernel_size': (2,2), 'activation': 'relu', 'padding': 'same'}]])
+crnn.setPoolLayers([[{'pool_size': (2,2)},{'pool_size': (2,2)}]])
+crnn.setRecurrentLayers([{'units': 500}])
+crnn.setOutLayers([{'units': 1, 'activation': 'linear'}])
+
+# Configure the model
+crnn.setModelConfiguration(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+# Build the model and print the summary
+crnn.build()
+crnn.summary()
+
+# Save the model
+crnn.save('CRNN')
+```
+
+The output of the previous code snippet is reported here:
+```
+[DF] Building model...
+[DF] Model built!
+Model: "SimpleCRNN"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ Input Layer (InputLayer)    [(None, 3, 3, 1)]         0         
+                                                                 
+ conv2d_2 (Conv2D)           (None, 2, 2, 32)          160       
+                                                                 
+ max_pooling2d_1 (MaxPooling  (None, 1, 1, 32)         0         
+ 2D)                                                             
+                                                                 
+ conv2d_3 (Conv2D)           (None, 1, 1, 64)          8256      
+                                                                 
+ flatten_1 (Flatten)         (None, 64)                0         
+                                                                 
+ reshape_1 (Reshape)         (None, 64, 1)             0         
+                                                                 
+ cu_dnnlstm_1 (CuDNNLSTM)    (None, 500)               1006000   
+                                                                 
+ dense_1 (Dense)             (None, 1)                 501       
+                                                                 
+=================================================================
+Total params: 1,014,917
+Trainable params: 1,014,917
+Non-trainable params: 0
+_________________________________________________________________
+[DF] Saving model...
+[DF] Model saved!
+```
+
+
 ## Documentation
 
 Check out the full documentation for [Keras](https://keras.io/api/) and [Tensorflow](https://www.tensorflow.org/api_docs) for in-depth information on how to use the library.
