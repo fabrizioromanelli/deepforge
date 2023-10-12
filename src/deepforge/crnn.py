@@ -130,9 +130,7 @@ class CRNN(DNN):
         recnet = CuDNNLSTM(**self.recLayersArgs[k])(recnet)
 
     # Build output dense layers
-    outLayersN = len(self.outLayersArgs)
-
-    for l in range(0, outLayersN):
+    for l in range(0, len(self.outLayersArgs)):
       if l == 0:
         outnet = Dense(**self.outLayersArgs[l])(recnet)
       else:

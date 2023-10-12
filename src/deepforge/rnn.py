@@ -92,9 +92,7 @@ class RNN(DNN):
       combined = self.layersOut[0]
 
     # Build output dense layers
-    outLayersN = len(self.outLayersArgs)
-
-    for l in range(0, outLayersN):
+    for l in range(0, len(self.outLayersArgs)):
       if l == 0:
         outnet = Dense(**self.outLayersArgs[l])(combined)
       else:
