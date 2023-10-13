@@ -10,6 +10,10 @@ The current version is 0.0.5.
 
 ## Changelog
 
+13.10.2023 - Version 0.0.5: Integration of a fully functional Denoising AutoEncoder class.
+
+12.10.2023 - Version 0.0.4: Integration of a fully functional Convolutional Recurrent Neural Network class.
+
 11.10.2023 - Version 0.0.3: Integration of a fully functional Convolutional Neural Network and Recurrent Neural Network classes.
 
 10.10.2023 - Version 0.0.2: Integration of a fully functional multivariate Deep Neural Network class.
