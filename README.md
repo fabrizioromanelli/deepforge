@@ -503,6 +503,90 @@ _________________________________________________________________
 [DF] Model saved!
 ```
 
+### Denoising AutoEncoder (`DAE`)
+The generic scheme of a Denoising AutoEncoder is reported here:
+
+![Alt text](./images/dae.png)
+
+Here's a simple example of how to deepforge a simple Denoising AutoEncoder via the `DAE` class:
+
+```python
+# Denoising AutoEncoder example
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Make an instance of a DAE
+dae = df.DAE(name="Simple DAE")
+
+# Set the number of inputs/outputs
+inOutNum = 100
+
+# Set inputs, inner layers and out layers
+dae.setEncoderLayer({'shape': (inOutNum,)})
+dae.setHiddenLayers([{'units': round(inOutNum/2), 'activation': 'relu'}])
+dae.setDecoderLayer({'units': inOutNum, 'activation': 'linear'})
+
+# # Configure the model
+dae.setModelConfiguration(optimizer='adam', loss='mse')
+
+# Build the model and print the summary
+dae.build()
+dae.summary()
+
+# Generate some noisy data
+def generate_noisy_data():
+  y = np.linspace(0, 1, inOutNum)
+  x = y + np.random.normal(0, 0.1, inOutNum)
+  return x, y
+
+x, y = generate_noisy_data()
+
+x = x.reshape(1,inOutNum)
+y = y.reshape(1,inOutNum)
+
+# Train the model
+dae.fit(x=[x], y=y, epochs=100, verbose=0)
+
+# Test the denoising autoencoder
+yHat = dae.predict(x)
+
+# Visualize the results
+plt.figure(figsize=(10, 4))
+plt.plot(y.reshape(inOutNum,), label='Clean Data')
+plt.plot(x.reshape(inOutNum,), label='Noisy Data')
+plt.plot(yHat.reshape(inOutNum,), label='Denoised Data')
+plt.legend()
+plt.show()
+
+# Save the model
+dae.save('DAE')
+```
+
+The output of the previous code snippet is reported here:
+```
+[DF] Building model...
+[DF] Model built!
+Model: "SimpleDAE"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_3 (InputLayer)        [(None, 100)]             0         
+                                                                 
+ dense_4 (Dense)             (None, 50)                5050      
+                                                                 
+ dense_5 (Dense)             (None, 100)               5100      
+                                                                 
+=================================================================
+Total params: 10,150
+Trainable params: 10,150
+Non-trainable params: 0
+_________________________________________________________________
+```
+![Alt text](./images/daePrediction.png)
+```
+[DF] Saving model...
+[DF] Model saved!
+```
 
 ## Documentation
 
