@@ -6,16 +6,17 @@ A python object oriented library to model deep neural networks based on Keras/Te
 
 ## Version
 
-The current version is 0.0.2.
+The current version is 0.0.4.
 
 ## Changelog
 
 11.10.2023 - Version 0.0.3: Integration of a fully functional Convolutional Neural Network and Recurrent Neural Network classes.
+
 10.10.2023 - Version 0.0.2: Integration of a fully functional multivariate Deep Neural Network class.
 
 ## Overview
 
-deepforge is a Python object-oriented library built on top of Keras and TensorFlow for simplifying the creation and training of deep neural networks. It provides a user-friendly interface for designing, configuring, and training neural network models, making it easier for developers and researchers to work with deep learning.
+deepforge is a Python object-oriented library built on top of Keras and TensorFlow for simplifying the creation and training of deep neural networks. It provides a user-friendly interface for designing, configuring, and training neural network models, making it easier for developers and researchers to work with deep learning. Next versions of the library should include support for other deep learning frameworks (such as PyTorch, Theano, Caffe, etc.).
 
 ## Features
 
@@ -37,7 +38,15 @@ This will install the library with full support for tensorflow-gpu.
 
 ## Quick Start
 
+In the following sections, we will refer to the Deep Neural Network schemes reported in [The mostly complete chart of neural networks explained](https://towardsdatascience.com/the-mostly-complete-chart-of-neural-networks-explained-3fb6f2367464) by Fjodor van Veen. The reference chart is reported here:
+
+![Alt text](./images/legend.png)
+
 ### Multivariate Deep Neural Network (`multivariateDNN`)
+The generic scheme of a Multivariate Deep Neural Network is:
+
+![Alt text](./images/multivariatednn.png)
+
 Here's a simple example of how to deepforge a simple Deep Neural Network via the `multivariateDNN` class:
 
 ```python
@@ -236,6 +245,10 @@ ________________________________________________________________________________
 For more detailed usage and examples, please refer to the documentation.
 
 ### Convolutional Neural Network (`CNN`)
+The generic scheme of a Convolutional Neural Network is reported here:
+
+![Alt text](./images/cnn.png)
+
 Here's a simple example of how to deepforge a simple Convolutional Neural Network via the `CNN` class and fitting the model with the MNIST dataset:
 
 ```python
@@ -337,6 +350,10 @@ Test accuracy: 0.991100013256073
 ```
 
 ### Recurrent Neural Network (`RNN`)
+The generic scheme of a Recurrent Neural Network is reported here:
+
+![Alt text](./images/rnn.png)
+
 Here's a simple example of how to deepforge a simple Recurrent Neural Network via the `RNN` class:
 
 ```python
@@ -423,6 +440,9 @@ _________________________________________________________________
 ```
 
 ### Convolutional Recurrent Neural Network (`CRNN`)
+The generic scheme of a Convolutional Recurrent Neural Network is reported here:
+![Alt text](./images/crnn.png)
+
 Here's a simple example of how to deepforge a simple Convolutional Recurrent Neural Network via the `CRNN` class:
 
 ```python
