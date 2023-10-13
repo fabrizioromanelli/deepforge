@@ -1,10 +1,10 @@
 # Class for Denoising AutoEncoder
 # author: Fabrizio Romanelli
 # email : fabrizio.romanelli@gmail.com
-# date  : 11/10/2023
+# date  : 13/10/2023
 
 from .dnn import DNN
-from keras.layers import Input, Dense, concatenate, BatchNormalization, LeakyReLU
+from keras.layers import Input, Dense
 from keras.models import Model
 
 class DAE(DNN):
@@ -14,25 +14,12 @@ class DAE(DNN):
   def __init__(self, name, inputN=1):
     super().__init__(name,inputN)
 
-  # Setter and getter for Keras Input arguments
-  def setInputs(self, inputArgs):
-    assert len(inputArgs) == self.inputN, "[DF] Input arguments are incompatible with the number of inputs."
-    self.inputArgs = inputArgs
-    return
-
-  def getInputs(self):
-    if hasattr(self, 'inputArgs'):
-      return self.inputArgs
-    else:
-      print('[DF] Model has no input arguments set yet.')
-      return
-
   # Setter and getter for encoder Layer arguments
-  def setEncoderLayers(self, layersArgs):
+  def setEncoderLayer(self, layersArgs):
     self.encLayersArgs = layersArgs
     return
 
-  def getEncoderLayers(self):
+  def getEncoderLayer(self):
     if hasattr(self, 'encLayersArgs'):
       return self.encLayersArgs
     else:
@@ -52,27 +39,15 @@ class DAE(DNN):
       return
 
   # Setter and getter for decoder Layer arguments
-  def setDecoderLayers(self, layersArgs):
+  def setDecoderLayer(self, layersArgs):
     self.decLayersArgs = layersArgs
     return
 
-  def getDecoderLayers(self):
+  def getDecoderLayer(self):
     if hasattr(self, 'decLayersArgs'):
       return self.decLayersArgs
     else:
       print('[DF] Model has no layers arguments set yet.')
-      return
-
-  # Setter and getter for Keras ouput Layers arguments
-  def setOutLayers(self, outLayersArgs):
-    self.outLayersArgs = outLayersArgs
-    return
-
-  def getOutLayers(self):
-    if hasattr(self, 'outLayersArgs'):
-      return self.outLayersArgs
-    else:
-      print('[DF] Model has no output layers arguments set yet.')
       return
 
   # Setter and getter for model configuration
@@ -90,56 +65,19 @@ class DAE(DNN):
   # Build model
   def build(self):
     print("[DF] Building model...")
-    # Build inputs
-    self.inputLayer = []
-    for i in range(0, self.inputN):
-      self.inputLayer.append(Input(**self.inputArgs[i]))
 
-    # Build encoder layer(s)
-    self.layersIn  = []
-    self.layersOut = []
-    for inIdx in range(0, self.inputN):
-      for encIdx in range(0, self.inputN):
-        if encIdx == 0:
-          encoderL = Dense(**self.encLayersArgs[inIdx][encIdx])(self.inputLayer[inIdx])
-        else:
-          encoderL = Dense(**self.encLayersArgs[inIdx][encIdx])(encoderL)
-        encoderL = BatchNormalization()(encoderL)
-        encoderL = LeakyReLU()(encoderL)
-
-      encoderL = Model(inputs=self.inputLayer[inIdx], outputs=encoderL)
-
-      self.layersIn.append(encoderL.input)
-      self.layersOut.append(encoderL.output)
-
-    if self.inputN != 1:
-      combined = concatenate(self.layersOut)
-    else:
-      combined = self.layersOut[0]
+    # Build encoder layer
+    encoderLayer = Input(**self.encLayersArgs)
 
     # Build hidden dense layer(s)
     for hidIdx in range(0, len(self.hidLayersArgs)):
       if hidIdx == 0:
-        hiddenL = Dense(**self.hidLayersArgs[hidIdx])(combined)
+        hiddenL = Dense(**self.hidLayersArgs[hidIdx])(encoderLayer)
       else:
         hiddenL = Dense(**self.hidLayersArgs[hidIdx])(hiddenL)
 
-    # Build decoder dense layer(s)
-    for decIdx in range(0, len(self.decLayersArgs)):
-      if decIdx == 0:
-        decoderL = Dense(**self.decLayersArgs[decIdx])(hiddenL)
-      else:
-        decoderL = Dense(**self.decLayersArgs[decIdx])(decoderL)
-      decoderL = BatchNormalization()(decoderL)
-      decoderL = LeakyReLU()(decoderL)
+    decoderLayer = Dense(**self.decLayersArgs)(hiddenL)
 
-    # Build output dense layers
-    for outIdx in range(0, len(self.outLayersArgs)):
-      if outIdx == 0:
-        outnet = Dense(**self.outLayersArgs[outIdx])(decoderL)
-      else:
-        outnet = Dense(**self.outLayersArgs[outIdx])(outnet)
-
-    self.model = Model(name=self.NAME, inputs=self.layersIn, outputs=outnet)
+    self.model = Model(name=self.NAME, inputs=encoderLayer, outputs=decoderLayer)
     self.model.compile(**self.modelParams)
     print("[DF] Model built!")
