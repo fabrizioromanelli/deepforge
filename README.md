@@ -1,6 +1,6 @@
 # deepforge
 
-A python object oriented library to model deep neural networks based on Keras/Tensorflow.
+A python object oriented library to model deep neural networks based on Keras/Tensorflow (>=2.14).
 
 [![License](https://img.shields.io/badge/License-GNU%20GPL-blue)](LICENSE)
 
