@@ -4,7 +4,7 @@
 # date  : 12/10/2023
 
 from .dnn import DNN
-from keras.layers import Input, Dense, concatenate, Conv2D, MaxPooling2D, Flatten, CuDNNLSTM, Reshape
+from keras.layers import Input, Dense, concatenate, Conv2D, MaxPooling2D, Flatten, LSTM, Reshape
 from keras.models import Model
 
 class CRNN(DNN):
@@ -125,9 +125,9 @@ class CRNN(DNN):
 
     for k in range(0, len(self.recLayersArgs)):
       if k == 0:
-        recnet = CuDNNLSTM(**self.recLayersArgs[k])(reshaped)
+        recnet = LSTM(**self.recLayersArgs[k])(reshaped)
       else:
-        recnet = CuDNNLSTM(**self.recLayersArgs[k])(recnet)
+        recnet = LSTM(**self.recLayersArgs[k])(recnet)
 
     # Build output dense layers
     for l in range(0, len(self.outLayersArgs)):

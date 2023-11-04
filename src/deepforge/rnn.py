@@ -4,7 +4,7 @@
 # date  : 11/10/2023
 
 from .dnn import DNN
-from keras.layers import Input, Dense, concatenate, CuDNNLSTM
+from keras.layers import Input, Dense, concatenate, LSTM
 from keras.models import Model
 
 class RNN(DNN):
@@ -77,9 +77,9 @@ class RNN(DNN):
     for j in range(0, self.inputN):
       for k in range(0, len(self.recLayersArgs[j])):
         if k == 0:
-          subnet = CuDNNLSTM(**self.recLayersArgs[j][k])(self.inputLayer[j])
+          subnet = LSTM(**self.recLayersArgs[j][k])(self.inputLayer[j])
         else:
-          subnet = CuDNNLSTM(**self.recLayersArgs[j][k])(subnet)
+          subnet = LSTM(**self.recLayersArgs[j][k])(subnet)
 
       subnet = Model(inputs = self.inputLayer[j], outputs = subnet)
 

@@ -6,7 +6,6 @@
 import os
 import tensorflow as tf
 from tensorflow.python.ops.numpy_ops import np_config
-from keras import backend as K
 
 # This function initializes the environment.
 # It allows to set the verbosity for the tensorflow module,
@@ -22,4 +21,4 @@ def initialize(CPU=1, GPU=1, VERBOSE='0', NPARRAYS=False):
 
   config = tf.compat.v1.ConfigProto(device_count = {'GPU': GPU , 'CPU': CPU})
   sess = tf.compat.v1.Session(config = config)
-  K.set_session(sess)
+  tf.compat.v1.keras.backend.set_session(sess)
