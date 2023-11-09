@@ -8,4 +8,4 @@ from .multivariateDnn import multivariateDNN
 from .initialize import initialize
 
 # Version of deepforge library
-__version__ = "0.0.5"
+__version__ = "0.0.6"
