@@ -9,7 +9,50 @@ import numpy as np
 from keras.models import load_model, Model
 
 class DNN:
-  """DNN class"""
+  """
+  This class implements the super class DNN
+  for a generic Deep Neural Network model.
+
+  Attributes
+  ----------
+  NAME : str
+         Name of the instance model.
+  inputN : int
+         Number of inputs for the DNN.
+  EPOCHS : int
+         Number of epochs to be used for the training phase.
+  model : Model
+         Model (in Keras form).
+  
+  Methods
+  -------
+  setName(name: str)
+      Set the DNN instance name.
+  getName()
+      Get the DNN instance name.
+  setInputsN(inputN: int)
+      Set the number of inputs for the DNN.
+  getInputsN()
+      Get the number of inputs for the DNN.
+  setEpochs(epochs: int)
+      Set the number of epochs to be used in the training/fit phase.
+  getEpochs()
+      Get the number of epochs to be used in the training/fit phase.
+  setModel(model: Model)
+      Set the Keras model in the class attribute.
+  getModel()
+      Get the Keras model from the class attribute.
+  load(filename: str, custom_objects: dict, fullpath: bool, tflite: bool)
+      Load the Keras model from a file.
+  save(filename: str, fullpath: bool, tflite: bool)
+      Save the Keras model to a file.
+  summary()
+      Get the summary of the model.
+  fit(**fitParams: dict)
+      Trains/fits the model.
+  predict(x: np.array)
+      Make a prediction with a pre-trained model.
+  """
 
   # Constructor
   def __init__(self, name: str, inputN: int=1) -> None:
@@ -20,10 +63,34 @@ class DNN:
 
   # Setter/Getter for DNN name
   def setName(self, name: str) -> None:
+    '''
+    This method is used to set the DNN instance name.
+
+    Parameters
+    ----------
+    name : str
+          The DNN instance name.
+    
+    Returns
+    -------
+    None
+    '''
     self.__NAME = name
     return
 
   def getName(self) -> str:
+    '''
+    This method is used to get the DNN instance name.
+
+    Parameters
+    ----------
+    None
+    
+    Returns
+    -------
+    str :
+      The DNN instance name.
+    '''
     return self.__NAME
 
   # Setter/Getter for DNN number of inputs
