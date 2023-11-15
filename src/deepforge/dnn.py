@@ -5,51 +5,58 @@
 
 import os
 import tensorflow as tf
-from keras.models import load_model
+import numpy as np
+from keras.models import load_model, Model
 
 class DNN:
   """DNN class"""
 
   # Constructor
-  def __init__(self, name, inputN=1):
-    self.NAME   = name.replace(" ", "")
-    self.inputN = inputN
+  def __init__(self, name: str, inputN: int=1) -> None:
+    self.__NAME: str   = name.replace(" ", "")
+    self.__inputN: int = inputN
+    self.__EPOCHS: int = 0
+    self.__model = None
 
   # Setter/Getter for DNN name
-  def setName(self, name):
-    self.NAME = name
+  def setName(self, name: str) -> None:
+    self.__NAME = name
     return
 
-  def getName(self):
-    return self.NAME
+  def getName(self) -> str:
+    return self.__NAME
 
   # Setter/Getter for DNN number of inputs
-  def setInputsN(self, inputN):
-    self.inputN = inputN
+  def setInputsN(self, inputN: int) -> None:
+    self.__inputN = inputN
     return
 
-  def getInputsN(self):
-    return self.inputN
+  def getInputsN(self) -> int:
+    return self.__inputN
 
   # Setter/Getter for DNN epochs
-  def setEpochs(self, epochs):
-    self.EPOCHS = epochs
+  def setEpochs(self, epochs: int) -> None:
+    self.__EPOCHS = epochs
     return
 
-  def getEpochs(self):
-    return self.EPOCHS
+  def getEpochs(self) -> int:
+    return self.__EPOCHS
 
-  # Getter for DNN model
-  def getModel(self):
-    if hasattr(self, 'model'):
-      self.model
-      return self.model
+  # Setter/Getter for DNN model
+  def setModel(self, model: Model) -> None:
+    self.__model = model
+    return
+
+  def getModel(self) -> Model:
+    if self.__model is not None:
+      self.__model
+      return self.__model
     else:
       print('[DF] Model has not been built yet.')
       return
 
   # Load the model from a file
-  def load(self, filename, custom_objects={}, fullpath=False, tflite=False):
+  def load(self, filename: str, custom_objects: dict={}, fullpath: bool=False, tflite: bool=False) -> None:
     # TODO when loading a model, update the self.inputN variable
     print("[DF] Loading model...")
     if tflite:
@@ -58,19 +65,19 @@ class DNN:
       return
 
     if fullpath:
-      self.model = load_model(filename)
+      self.__model = load_model(filename)
     else:
       if os.name == 'posix':
-        self.model = load_model('./models/'+filename+'.h5', custom_objects)
+        self.__model = load_model('./models/'+filename+'.h5', custom_objects)
       elif os.name == 'nt':
         currentDir = os.getcwd()
-        self.model = load_model(currentDir+'/models/'+filename+'.h5', custom_objects)
+        self.__model = load_model(currentDir+'/models/'+filename+'.h5', custom_objects)
     print("[DF] Loaded!")
     return
 
   # Save the model to a file
-  def save(self, filename, fullpath=False, tflite=False):
-    if not hasattr(self, 'model'):
+  def save(self, filename: str, fullpath: bool=False, tflite: bool=False) -> None:
+    if self.__model is None:
       print('[DF] Model has not been built yet.')
       return
 
@@ -83,44 +90,45 @@ class DNN:
       if tflite:
         open(filename+'.tflite', 'wb').write(tflite_model)
       else:
-        self.model.save(filename)
+        self.__model.save(filename)
     else:
       if os.name == 'posix':
         if tflite:
           open('./models/'+filename+'.tflite', 'wb').write(tflite_model)
         else:
-          self.model.save('./models/'+filename+'.h5') # Python from Linux/WSL2 (saves in ./models)
+          self.__model.save('./models/'+filename+'.h5') # Python from Linux/WSL2 (saves in ./models)
       elif os.name == 'nt':
         currentDir = os.getcwd()
         if tflite:
           open(currentDir+'/models/'+filename+'.tflite', 'wb').write(tflite_model)
         else:
-          self.model.save(currentDir+'/models/'+filename+'.h5') # Python from Anaconda for Windows (saves in ./models)
+          self.__model.save(currentDir+'/models/'+filename+'.h5') # Python from Anaconda for Windows (saves in ./models)
     print("[DF] Model saved!")
     return
 
   # Plot the model summary
-  def summary(self):
-    if hasattr(self, 'model'):
-      self.model.summary()
+  def summary(self) -> None:
+    if self.__model is not None:
+      self.__model.summary()
       return
     else:
       print('[DF] Model has not been built yet.')
       return
 
   # Fit model
-  def fit(self, **fitParams):
-    if hasattr(self, 'model'):
-      self.model.fit(**fitParams)
+  def fit(self, **fitParams: dict) -> None:
+    if self.__model is not None:
+      self.__model.fit(**fitParams)
     else:
       print('[DF] Model has not been built yet.')
       return
 
   # Make predictions with the model
   @tf.function
-  def predict(self, x):
-    if hasattr(self, 'model'):
-      return self.model(x)
+  @tf.autograph.experimental.do_not_convert
+  def predict(self, x: np.array) -> np.array:
+    if self.__model is not None:
+      return self.__model(x)
     else:
       print('[DF] Model has not been built yet.')
       return

@@ -13,76 +13,85 @@ class CRNN(DNN):
   # Constructor
   def __init__(self, name, inputN=1):
     super().__init__(name,inputN)
+    self.__inputArgs: list=[]
+    self.__convLayersArgs: list=[]
+    self.__poolLayersArgs: list=[]
+    self.__recLayersArgs: list=[]
+    self.__outLayersArgs: list=[]
+    self.__inputLayer: list=[]
+    self.__layersIn: list=[]
+    self.__layersOut: list=[]
+    self.__modelParams: dict=None
 
   # Setter and getter for Keras Input arguments
-  def setInputs(self, inputArgs):
-    assert len(inputArgs) == self.inputN, "[DF] Input arguments are incompatible with the number of inputs."
-    self.inputArgs = inputArgs
+  def setInputs(self, inputArgs: list) -> None:
+    assert len(inputArgs) == self.getInputsN(), "[DF] Input arguments are incompatible with the number of inputs."
+    self.__inputArgs = inputArgs
     return
 
-  def getInputs(self):
-    if hasattr(self, 'inputArgs'):
-      return self.inputArgs
+  def getInputs(self) -> list:
+    if self.__inputArgs is not []:
+      return self.__inputArgs
     else:
       print('[DF] Model has no input arguments set yet.')
       return
 
   # Setter and getter for Keras Conv2D Layers arguments
-  def setConvLayers(self, layersArgs):
-    self.convLayersArgs = layersArgs
+  def setConvLayers(self, layersArgs: list) -> None:
+    self.__convLayersArgs = layersArgs
     return
 
-  def getConvLayers(self):
-    if hasattr(self, 'convLayersArgs'):
-      return self.convLayersArgs
+  def getConvLayers(self) -> list:
+    if self.__convLayersArgs is not []:
+      return self.__convLayersArgs
     else:
       print('[DF] Model has no layers arguments set yet.')
       return
 
   # Setter and getter for Keras MaxPooling2D Layers arguments
-  def setPoolLayers(self, layersArgs):
-    self.poolLayersArgs = layersArgs
+  def setPoolLayers(self, layersArgs: list) -> None:
+    self.__poolLayersArgs = layersArgs
     return
 
-  def getPoolLayers(self):
-    if hasattr(self, 'poolLayersArgs'):
-      return self.poolLayersArgs
+  def getPoolLayers(self) -> list:
+    if self.__poolLayersArgs is not []:
+      return self.__poolLayersArgs
     else:
       print('[DF] Model has no layers arguments set yet.')
       return
 
   # Setter and getter for recurrent Layer arguments
-  def setRecurrentLayers(self, layersArgs):
-    self.recLayersArgs = layersArgs
+  def setRecurrentLayers(self, layersArgs: list) -> None:
+    self.__recLayersArgs = layersArgs
     return
 
-  def getRecurrentLayers(self):
-    if hasattr(self, 'recLayersArgs'):
-      return self.recLayersArgs
+  def getRecurrentLayers(self) -> list:
+    if self.__recLayersArgs is not []:
+      return self.__recLayersArgs
     else:
       print('[DF] Model has no layers arguments set yet.')
       return
 
   # Setter and getter for Keras ouput Layers arguments
-  def setOutLayers(self, outLayersArgs):
-    self.outLayersArgs = outLayersArgs
+  def setOutLayers(self, outLayersArgs: list) -> None:
+    self.__outLayersArgs = outLayersArgs
     return
 
-  def getOutLayers(self):
-    if hasattr(self, 'outLayersArgs'):
-      return self.outLayersArgs
+  def getOutLayers(self) -> list:
+    if self.__outLayersArgs is not []:
+      return self.__outLayersArgs
     else:
       print('[DF] Model has no output layers arguments set yet.')
       return
 
   # Setter and getter for model configuration
-  def setModelConfiguration(self, **modelParams):
-    self.modelParams = modelParams
+  def setModelConfiguration(self, **modelParams: dict) -> None:
+    self.__modelParams = modelParams
     return
 
-  def getModelConfiguration(self):
-    if hasattr(self, 'modelParams'):
-      return self.modelParams
+  def getModelConfiguration(self) -> dict:
+    if self.__modelParams is not None:
+      return self.__modelParams
     else:
       print('[DF] Model has no configuration arguments set yet.')
       return
@@ -91,51 +100,48 @@ class CRNN(DNN):
   def build(self):
     print("[DF] Building model...")
     # Build inputs
-    self.inputLayer = []
-    for i in range(0, self.inputN):
-      self.inputLayer.append(Input(**self.inputArgs[i]))
+    for i in range(0, self.getInputsN()):
+      self.__inputLayer.append(Input(**self.__inputArgs[i]))
 
     # Build inner dense layers
-    self.layersIn  = []
-    self.layersOut = []
-    for j in range(0, self.inputN):
-      for k in range(0, len(self.convLayersArgs[j])):
+    for j in range(0, self.getInputsN()):
+      for k in range(0, len(self.__convLayersArgs[j])):
         if k == 0:
-          subnet = Conv2D(**self.convLayersArgs[j][k])(self.inputLayer[j])
-          subnet = MaxPooling2D(**self.poolLayersArgs[j][k])(subnet)
-        elif k < len(self.convLayersArgs[j]) - 1:
-          subnet = Conv2D(**self.convLayersArgs[j][k])(subnet)
-          subnet = MaxPooling2D(**self.poolLayersArgs[j][k])(subnet)
+          subnet = Conv2D(**self.__convLayersArgs[j][k])(self.__inputLayer[j])
+          subnet = MaxPooling2D(**self.__poolLayersArgs[j][k])(subnet)
+        elif k < len(self.__convLayersArgs[j]) - 1:
+          subnet = Conv2D(**self.__convLayersArgs[j][k])(subnet)
+          subnet = MaxPooling2D(**self.__poolLayersArgs[j][k])(subnet)
         else:
-          subnet = Conv2D(**self.convLayersArgs[j][k])(subnet)
+          subnet = Conv2D(**self.__convLayersArgs[j][k])(subnet)
           subnet = Flatten()(subnet)
 
-      subnet = Model(inputs=self.inputLayer[j], outputs=subnet)
+      subnet = Model(inputs=self.__inputLayer[j], outputs=subnet)
 
-      self.layersIn.append(subnet.input)
-      self.layersOut.append(subnet.output)
+      self.__layersIn.append(subnet.input)
+      self.__layersOut.append(subnet.output)
 
-    if self.inputN != 1:
-      combined = concatenate(self.layersOut)
+    if self.getInputsN() != 1:
+      combined = concatenate(self.__layersOut)
     else:
-      combined = self.layersOut[0]
+      combined = self.__layersOut[0]
 
     # Reshape layer to adapt with LSTM input tensor
     reshaped = Reshape((combined.shape[1],1))(combined)
 
-    for k in range(0, len(self.recLayersArgs)):
+    for k in range(0, len(self.__recLayersArgs)):
       if k == 0:
-        recnet = LSTM(**self.recLayersArgs[k])(reshaped)
+        recnet = LSTM(**self.__recLayersArgs[k])(reshaped)
       else:
-        recnet = LSTM(**self.recLayersArgs[k])(recnet)
+        recnet = LSTM(**self.__recLayersArgs[k])(recnet)
 
     # Build output dense layers
-    for l in range(0, len(self.outLayersArgs)):
+    for l in range(0, len(self.__outLayersArgs)):
       if l == 0:
-        outnet = Dense(**self.outLayersArgs[l])(recnet)
+        outnet = Dense(**self.__outLayersArgs[l])(recnet)
       else:
-        outnet = Dense(**self.outLayersArgs[l])(outnet)
+        outnet = Dense(**self.__outLayersArgs[l])(outnet)
 
-    self.model = Model(name=self.NAME, inputs=self.layersIn, outputs=outnet)
-    self.model.compile(**self.modelParams)
+    self.setModel(Model(name=self.getName(), inputs=self.__layersIn, outputs=outnet))
+    self.getModel().compile(**self.__modelParams)
     print("[DF] Model built!")

@@ -11,7 +11,7 @@ from tensorflow.python.ops.numpy_ops import np_config
 # It allows to set the verbosity for the tensorflow module,
 # to treat tensors as numpy arrays and to set the configuration
 # of the Keras session (both in terms of number of CPUs and GPUs).
-def initialize(CPU=1, GPU=1, VERBOSE='0', NPARRAYS=False):
+def initialize(CPU: int=1, GPU: int=1, VERBOSE: str='0', NPARRAYS: bool=False):
   os.environ['TF_CPP_MIN_LOG_LEVEL'] = VERBOSE
 
   # The following line allows to use tensors as numpy arrays
