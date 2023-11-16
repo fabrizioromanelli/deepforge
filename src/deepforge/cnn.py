@@ -38,11 +38,11 @@ class CNN(DNN):
       Get the input arguments for the CNN.
   setConvLayers(layersArgs: list)
       Set the convolutional layer arguments for the CNN.
-  setConvLayers()
+  getConvLayers()
       Get the convolutional layer arguments for the CNN.
   setPoolLayers(layersArgs: list)
       Set the pool layer arguments for the CNN.
-  setPoolLayers()
+  getPoolLayers()
       Get the pool layer arguments for the CNN.
   setOutLayers(outLayersArgs: list)
       Set the output layer arguments for the CNN.
