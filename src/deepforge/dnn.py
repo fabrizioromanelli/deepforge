@@ -61,7 +61,6 @@ class DNN:
     self.__EPOCHS: int = 0
     self.__model = None
 
-  # Setter/Getter for DNN name
   def setName(self, name: str) -> None:
     '''
     This method is used to set the DNN instance name.
@@ -93,43 +92,137 @@ class DNN:
     '''
     return self.__NAME
 
-  # Setter/Getter for DNN number of inputs
   def setInputsN(self, inputN: int) -> None:
+    '''
+    This method is used to set the DNN inputs.
+
+    Parameters
+    ----------
+    inputN : int
+          The number of inputs to the DNN.
+    
+    Returns
+    -------
+    None
+    '''
     self.__inputN = inputN
     return
 
   def getInputsN(self) -> int:
+    '''
+    This method is used to get the DNN inputs number.
+
+    Parameters
+    ----------
+    None
+    
+    Returns
+    -------
+    int :
+      The DNN input numbers.
+    '''
     return self.__inputN
 
-  # Setter/Getter for DNN epochs
   def setEpochs(self, epochs: int) -> None:
+    '''
+    This method is used to set the number of epochs for the DNN training.
+
+    Parameters
+    ----------
+    epochs : int
+          The number of epochs for the training of the DNN.
+    
+    Returns
+    -------
+    None
+    '''
     self.__EPOCHS = epochs
     return
 
   def getEpochs(self) -> int:
+    '''
+    This method is used to get the number of epochs for the DNN training.
+
+    Parameters
+    ----------
+    None
+    
+    Returns
+    -------
+    int :
+      The number of epochs for the training of the DNN.
+    '''
     return self.__EPOCHS
 
-  # Setter/Getter for DNN model
   def setModel(self, model: Model) -> None:
+    '''
+    This method is used to set the DNN Keras model.
+
+    Parameters
+    ----------
+    model : Model
+          The Keras model of the DNN.
+    
+    Returns
+    -------
+    None
+    '''
     self.__model = model
     return
 
   def getModel(self) -> Model:
+    '''
+    This method is used to get the DNN Keras model.
+
+    Parameters
+    ----------
+    None
+    
+    Raises
+    ------
+    ValueError
+      If the model has not been built yet.
+
+    Returns
+    -------
+    Model :
+      The Keras model of the DNN.
+    '''
     if self.__model is not None:
       self.__model
       return self.__model
     else:
-      print('[DF] Model has not been built yet.')
-      return
+      raise ValueError('[DF] Model has not been built yet.')
 
-  # Load the model from a file
   def load(self, filename: str, custom_objects: dict={}, fullpath: bool=False, tflite: bool=False) -> None:
+    '''
+    This method is used to load the DNN Keras model from a file.
+
+    Parameters
+    ----------
+    filename : str
+      The filename of the Keras model.
+    custom_objects : dict
+      A dictionary containing the custom objects that has been used in the Keras model.
+    fullpath : bool
+      If true, the user can give the full path in the filename and load the model from there.
+    tflite : bool
+      If true, deepforge will load a tflite model, rather than a Keras standard model.
+    
+    Raises
+    ------
+    NotImplementedError
+      If the component is not yet implemented.
+
+    Returns
+    -------
+    None
+    '''
     # TODO when loading a model, update the self.inputN variable
     print("[DF] Loading model...")
     if tflite:
       # TODO implement TFLITE model load
-      print("[DF] Load Tflite model not implemented!")
-      return
+      raise NotImplementedError('[DF] Load Tflite model not implemented!')
 
     if fullpath:
       self.__model = load_model(filename)
@@ -142,11 +235,25 @@ class DNN:
     print("[DF] Loaded!")
     return
 
-  # Save the model to a file
   def save(self, filename: str, fullpath: bool=False, tflite: bool=False) -> None:
+    '''
+    This method is used to save the DNN Keras model to a file.
+
+    Parameters
+    ----------
+    filename : str
+      The filename of the Keras model.
+    fullpath : bool
+      If true, the user can give the full path in the filename and save the model to that path.
+    tflite : bool
+      If true, deepforge will save a tflite model, rather than a Keras standard model.
+
+    Returns
+    -------
+    None
+    '''
     if self.__model is None:
-      print('[DF] Model has not been built yet.')
-      return
+      raise ValueError('[DF] Model has not been built yet.')
 
     print("[DF] Saving model...")
     if tflite:
@@ -173,29 +280,75 @@ class DNN:
     print("[DF] Model saved!")
     return
 
-  # Plot the model summary
   def summary(self) -> None:
+    '''
+    This method is used to print a summary of the DNN Keras model.
+
+    Parameters
+    ----------
+    None
+    
+    Raises
+    ------
+    ValueError
+      If the model has not been built yet.
+
+    Returns
+    -------
+    None
+    '''
     if self.__model is not None:
       self.__model.summary()
       return
     else:
-      print('[DF] Model has not been built yet.')
-      return
+      raise ValueError('[DF] Model has not been built yet.')
 
-  # Fit model
   def fit(self, **fitParams: dict) -> None:
+    '''
+    This method is used to fit the DNN Keras model, given the fit parameters.
+
+    Parameters
+    ----------
+    fitParams : dict
+      The dictionary containing the parameters to be used in the fitting phase
+      of the model.
+
+    Raises
+    ------
+    ValueError
+      If the model has not been built yet.
+
+    Returns
+    -------
+    None
+    '''
     if self.__model is not None:
       self.__model.fit(**fitParams)
     else:
-      print('[DF] Model has not been built yet.')
-      return
+      raise ValueError('[DF] Model has not been built yet.')
 
-  # Make predictions with the model
   @tf.function
   @tf.autograph.experimental.do_not_convert
   def predict(self, x: np.array) -> np.array:
+    '''
+    This method uses the DNN Keras model to make predictions, given the input.
+
+    Parameters
+    ----------
+    x : np.array
+      The Numpy array containing the input(s).
+
+    Raises
+    ------
+    ValueError
+      If the model has not been built yet.
+
+    Returns
+    -------
+    np.array :
+      The predicted value(s).
+    '''
     if self.__model is not None:
       return self.__model(x)
     else:
-      print('[DF] Model has not been built yet.')
-      return
+      raise ValueError('[DF] Model has not been built yet.')
