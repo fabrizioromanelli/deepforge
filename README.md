@@ -10,6 +10,10 @@ The current version is 0.0.6.
 
 ## Changelog
 
+16.11.2023 - Version 0.0.7: Adding type annotations, Docstrings and implementation of raise conditions.
+
+08.11.2023 - Version 0.0.6: Refactoring of the deepforge library.
+
 13.10.2023 - Version 0.0.5: Integration of a fully functional Denoising AutoEncoder class.
 
 12.10.2023 - Version 0.0.4: Integration of a fully functional Convolutional Recurrent Neural Network class.
