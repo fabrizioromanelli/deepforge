@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "deepforge"
-version = "0.0.7"
+version = "0.0.8"
 description = "A python object oriented library to model deep neural networks based on Keras/Tensorflow."
 readme = "README.md"
 authors = [{ name = "Fabrizio Romanelli", email = "fabrizio.romanelli@gmail.com" }]
@@ -33,7 +33,7 @@ Homepage = "https://github.com/fabrizioromanelli/deepforge"
 [project.scripts]
 deepforge = "deepforge.__main__:main"
 [tool.bumpver]
-current_version = "0.0.7"
+current_version = "0.0.8"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "bump version {old_version} -> {new_version}"
 tag_message = "{new_version}"

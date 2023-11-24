@@ -6,9 +6,11 @@ A python object oriented library to model deep neural networks based on Keras/Te
 
 ## Version
 
-The current version is 0.0.7.
+The current version is 0.0.8.
 
 ## Changelog
+
+24.11.2023 - Version 0.0.8: General refactoring.
 
 16.11.2023 - Version 0.0.7: Adding type annotations, Docstrings and implementation of raise conditions.
 
